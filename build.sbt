@@ -39,3 +39,4 @@ val project = Project(
 )
 .configs (MultiJvm)
 
+assemblyJarName in assembly := "words-node.jar"
