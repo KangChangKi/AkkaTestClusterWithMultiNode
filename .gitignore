@@ -1,2 +1,5 @@
 target
 .idea
+data
+persistence-examples.jar
+words-node.jar

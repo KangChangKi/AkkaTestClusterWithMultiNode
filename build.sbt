@@ -62,10 +62,10 @@ val project = Project(
 )
 .configs (MultiJvm)
 
-// mainClass in Global := Some("aia.persistence.sharded.ShardedMain")
+//mainClass in Global := Some("aia.cluster.words.Main")
 
-// assemblyJarName in assembly := "persistence-examples.jar"
+//assemblyJarName in assembly := "words-node.jar"
 
-mainClass in Global := Some("aia.cluster.words.Main")
+mainClass in Global := Some("aia.persistence.sharded.ShardedMain")
 
-assemblyJarName in assembly := "words-node.jar"
+assemblyJarName in assembly := "persistence-examples.jar"
