@@ -5,6 +5,9 @@ import com.typesafe.sbt.SbtMultiJvm.MultiJvmKeys.MultiJvm
 val akkaVersion = "2.4.17"
 val akkaHttpVersion = "10.0.5"
 
+// "akka-persistence-cassandra-3x"
+resolvers += "krasserm at bintray" at "http://dl.bintray.com/krasserm/maven"
+
 val project = Project(
   id = "akka-test-cluster-with-multinode",
   base = file(".")
@@ -13,7 +16,8 @@ val project = Project(
 .settings(
   name := "akka-sample-multi-node-scala",
   version := "1.0",
-  scalaVersion := "2.12.1",
+  // scalaVersion := "2.12.1",
+  scalaVersion := "2.11.8",
   libraryDependencies ++= Seq(
     "com.typesafe.akka" %% "akka-actor" % akkaVersion,
 
@@ -27,6 +31,7 @@ val project = Project(
     "org.iq80.leveldb" % "leveldb" % "0.7",
     "org.fusesource.leveldbjni" % "leveldbjni-all" % "1.8",
     "commons-io" % "commons-io" % "2.4",
+    "com.github.krasserm" %% "akka-persistence-cassandra-3x" % "0.6",
 
     "com.typesafe.akka" %% "akka-http-core" % akkaHttpVersion,
     "com.typesafe.akka" %% "akka-http" % akkaHttpVersion,
