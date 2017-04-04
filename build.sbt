@@ -4,7 +4,7 @@ import com.typesafe.sbt.SbtMultiJvm.MultiJvmKeys.MultiJvm
 val akkaVersion = "2.4.17"
 
 val project = Project(
-  id = "akka-sample-multi-node-scala",
+  id = "akka-test-cluster-with-multinode",
   base = file(".")
 )
 .settings(SbtMultiJvm.multiJvmSettings: _*)
@@ -14,10 +14,20 @@ val project = Project(
   scalaVersion := "2.12.1",
   libraryDependencies ++= Seq(
     "com.typesafe.akka" %% "akka-actor" % akkaVersion,
+
     "com.typesafe.akka" %% "akka-remote" % akkaVersion,
     "com.typesafe.akka" %% "akka-cluster" % akkaVersion,
+
+    "com.typesafe.akka" %% "akka-persistence" % akkaVersion,
+    "com.typesafe.akka" %% "akka-persistence-query-experimental" % akkaVersion,
+    "org.iq80.leveldb" % "leveldb" % "0.7",
+    "org.fusesource.leveldbjni" % "leveldbjni-all" % "1.8",
+    "commons-io" % "commons-io" % "2.4",
+
     "com.typesafe.akka" %% "akka-multi-node-testkit" % akkaVersion,
-    "org.scalatest" %% "scalatest" % "3.0.1" % "test"),
+    "org.scalatest" %% "scalatest" % "3.0.1" % "test"
+
+  ),
   // make sure that MultiJvm test are compiled by the default test compilation
   compile in MultiJvm <<= (compile in MultiJvm) triggeredBy (compile in Test),
   // disable parallel tests
