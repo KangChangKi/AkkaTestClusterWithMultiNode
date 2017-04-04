@@ -1,6 +1,5 @@
 package aia.persistence
 
-
 import akka.actor._
 
 object Shopper {
@@ -24,7 +23,6 @@ class Shopper extends Actor {
   val basket = context.actorOf(Basket.props,
     Basket.name(shopperId))
 
-
   val wallet = context.actorOf(Wallet.props(shopperId, cash),
     Wallet.name(shopperId))
 
@@ -39,7 +37,6 @@ class Shopper extends Actor {
       context.system.eventStream.publish(paid)
   }
 }
-
 
 
 // alternative PayBasket handling:

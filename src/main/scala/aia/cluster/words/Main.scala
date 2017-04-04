@@ -1,5 +1,4 @@
-package aia.cluster
-package words
+package aia.cluster.words
 
 import com.typesafe.config.ConfigFactory
 import akka.actor.{Props, ActorSystem}

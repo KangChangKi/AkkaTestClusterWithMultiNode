@@ -10,6 +10,7 @@ import akka.persistence._
 
 object ShoppersSingleton {
   def props = Props(new ShoppersSingleton)
+
   def name = "shoppers-singleton"
 }
 
@@ -40,28 +41,27 @@ class ShoppersSingleton extends Actor {
   }
 }
 
-
-
 object Shoppers {
   def props = Props(new Shoppers)
+
   def name = "shoppers"
 
   sealed trait Event
+
   case class ShopperCreated(shopperId: Long)
+
 }
 
 class Shoppers extends PersistentActor
-    with ShopperLookup {
+  with ShopperLookup {
+
   import Shoppers._
 
   def persistenceId = "shoppers"
 
   def receiveCommand = forwardToShopper
 
-  override def createAndForward(
-    cmd: Shopper.Command, 
-    shopperId: Long
-  ) = {
+  override def createAndForward(cmd: Shopper.Command, shopperId: Long) = {
     val shopper = createShopper(shopperId)
     persistAsync(ShopperCreated(shopperId)) { _ =>
       forwardCommand(cmd)(shopper)

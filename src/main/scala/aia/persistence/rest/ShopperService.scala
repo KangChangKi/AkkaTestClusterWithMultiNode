@@ -28,15 +28,16 @@ class ShoppersService(val shoppers: ActorRef, val system: ActorSystem, val reque
 trait ShoppersRoutes extends ShopperMarshalling {
   def routes =
     deleteItem ~
-    updateItem ~
-    getBasket ~
-    updateBasket ~
-    deleteBasket ~
-    pay
+      updateItem ~
+      getBasket ~
+      updateBasket ~
+      deleteBasket ~
+      pay
 
   def shoppers: ActorRef
 
   implicit def requestTimeout: Timeout
+
   implicit def executionContext: ExecutionContext
 
   def pay = {
@@ -54,7 +55,7 @@ trait ShoppersRoutes extends ShopperMarshalling {
       pathPrefix("shopper" / ShopperIdSegment / "basket") { shopperId =>
         pathEnd {
           onSuccess(shoppers.ask(Basket.GetItems(shopperId)).mapTo[Items]) {
-            case Items(Nil)   => complete(NotFound)
+            case Items(Nil) => complete(NotFound)
             case items: Items => complete(items)
           }
         }
@@ -70,10 +71,10 @@ trait ShoppersRoutes extends ShopperMarshalling {
             shoppers ! Basket.Replace(items, shopperId)
             complete(OK)
           } ~
-          entity(as[Item]) { item =>
-            shoppers ! Basket.Add(item, shopperId)
-            complete(OK)
-          }
+            entity(as[Item]) { item =>
+              shoppers ! Basket.Add(item, shopperId)
+              complete(OK)
+            }
         }
       }
     }
@@ -95,17 +96,17 @@ trait ShoppersRoutes extends ShopperMarshalling {
       pathPrefix("shopper" / ShopperIdSegment / "basket" / ProductIdSegment) {
         (shopperId, productId) =>
 
-        pathEnd {
-          entity(as[ItemNumber]) { itemNumber =>
-            val ItemNumber(number) = itemNumber
-            val updateItem = Basket.UpdateItem(productId, number, shopperId)
-            onSuccess(shoppers.ask(updateItem)
-              .mapTo[Option[Basket.ItemUpdated]]) {
-               case Some(_) => complete(OK)
-               case None    => complete(NotFound)
+          pathEnd {
+            entity(as[ItemNumber]) { itemNumber =>
+              val ItemNumber(number) = itemNumber
+              val updateItem = Basket.UpdateItem(productId, number, shopperId)
+              onSuccess(shoppers.ask(updateItem)
+                .mapTo[Option[Basket.ItemUpdated]]) {
+                case Some(_) => complete(OK)
+                case None => complete(NotFound)
               }
+            }
           }
-        }
       }
     }
   }
@@ -115,18 +116,18 @@ trait ShoppersRoutes extends ShopperMarshalling {
       pathPrefix("shopper" / ShopperIdSegment / "basket" / ProductIdSegment) {
         (shopperId, productId) =>
 
-        pathEnd {
-          val removeItem = Basket.RemoveItem(productId, shopperId)
-          onSuccess(shoppers.ask(removeItem)
-            .mapTo[Option[Basket.ItemRemoved]]) {
-             case Some(_) => complete(OK)
-             case None    => complete(NotFound)
+          pathEnd {
+            val removeItem = Basket.RemoveItem(productId, shopperId)
+            onSuccess(shoppers.ask(removeItem)
+              .mapTo[Option[Basket.ItemRemoved]]) {
+              case Some(_) => complete(OK)
+              case None => complete(NotFound)
             }
-        }
+          }
       }
     }
   }
 
   val ShopperIdSegment = Segment.flatMap(id => Try(id.toLong).toOption)
-  val ProductIdSegment = Segment.flatMap(id => if(!id.isEmpty) Some(id) else None)
+  val ProductIdSegment = Segment.flatMap(id => if (!id.isEmpty) Some(id) else None)
 }

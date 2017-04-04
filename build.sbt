@@ -28,10 +28,6 @@ val project = Project(
     "org.fusesource.leveldbjni" % "leveldbjni-all" % "1.8",
     "commons-io" % "commons-io" % "2.4",
 
-//    "com.typesafe.akka" %% "akka-http-core" % "2.4.11",
-//    "com.typesafe.akka" %% "akka-http-experimental" % "2.4.11",
-//    "com.typesafe.akka" %% "akka-http-spray-json-experimental" % "2.4.11",
-
     "com.typesafe.akka" %% "akka-http-core" % akkaHttpVersion,
     "com.typesafe.akka" %% "akka-http" % akkaHttpVersion,
     "com.typesafe.akka" %% "akka-http-testkit" % akkaHttpVersion,
@@ -65,5 +61,11 @@ val project = Project(
   licenses := Seq(("CC0", url("http://creativecommons.org/publicdomain/zero/1.0")))
 )
 .configs (MultiJvm)
+
+// mainClass in Global := Some("aia.persistence.sharded.ShardedMain")
+
+// assemblyJarName in assembly := "persistence-examples.jar"
+
+mainClass in Global := Some("aia.cluster.words.Main")
 
 assemblyJarName in assembly := "words-node.jar"
