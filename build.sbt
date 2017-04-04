@@ -1,7 +1,9 @@
 import com.typesafe.sbt.SbtMultiJvm
 import com.typesafe.sbt.SbtMultiJvm.MultiJvmKeys.MultiJvm
 
+// Refer to http://akka.io/docs/
 val akkaVersion = "2.4.17"
+val akkaHttpVersion = "10.0.5"
 
 val project = Project(
   id = "akka-test-cluster-with-multinode",
@@ -17,6 +19,8 @@ val project = Project(
 
     "com.typesafe.akka" %% "akka-remote" % akkaVersion,
     "com.typesafe.akka" %% "akka-cluster" % akkaVersion,
+    "com.typesafe.akka" %% "akka-cluster-tools" % akkaVersion,
+    "com.typesafe.akka" %% "akka-cluster-sharding" % akkaVersion,
 
     "com.typesafe.akka" %% "akka-persistence" % akkaVersion,
     "com.typesafe.akka" %% "akka-persistence-query-experimental" % akkaVersion,
@@ -24,8 +28,21 @@ val project = Project(
     "org.fusesource.leveldbjni" % "leveldbjni-all" % "1.8",
     "commons-io" % "commons-io" % "2.4",
 
-    "com.typesafe.akka" %% "akka-multi-node-testkit" % akkaVersion,
-    "org.scalatest" %% "scalatest" % "3.0.1" % "test"
+//    "com.typesafe.akka" %% "akka-http-core" % "2.4.11",
+//    "com.typesafe.akka" %% "akka-http-experimental" % "2.4.11",
+//    "com.typesafe.akka" %% "akka-http-spray-json-experimental" % "2.4.11",
+
+    "com.typesafe.akka" %% "akka-http-core" % akkaHttpVersion,
+    "com.typesafe.akka" %% "akka-http" % akkaHttpVersion,
+    "com.typesafe.akka" %% "akka-http-testkit" % akkaHttpVersion,
+    "com.typesafe.akka" %% "akka-http-spray-json" % akkaHttpVersion,
+
+    "com.typesafe.akka" %% "akka-testkit" % akkaVersion % "test",
+    "com.typesafe.akka" %% "akka-multi-node-testkit" % akkaVersion % "test",
+    "org.scalatest" %% "scalatest" % "3.0.1" % "test",
+
+    "com.typesafe.akka" %% "akka-slf4j" % akkaVersion,
+    "ch.qos.logback" % "logback-classic" % "1.1.2"
 
   ),
   // make sure that MultiJvm test are compiled by the default test compilation
